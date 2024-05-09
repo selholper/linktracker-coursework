@@ -25,7 +25,7 @@ public class Link {
     @Enumerated(EnumType.STRING)
     private LinkType type;
 
-    @Size(max = 65536, message = "Размер изображения не должен превышать 256x256 пикселей!")
+    @Size(max = 262144, message = "Размер изображения не должен превышать 512x512 пикселей!")
     private byte[] imageData;
 
     @Column(columnDefinition = "text")

@@ -6,5 +6,6 @@ public enum LinkType {
     SOCIAL_MEDIA,
     ARTICLE,
     BLOG,
+    COMPANIES,
     OTHER
 }

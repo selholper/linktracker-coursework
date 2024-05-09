@@ -7,13 +7,19 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import ru.xpressed.javatemplatescoursework.models.Link;
 import ru.xpressed.javatemplatescoursework.models.User;
-import ru.xpressed.javatemplatescoursework.models.Order;
 import ru.xpressed.javatemplatescoursework.services.UserService;
 
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.util.Date;
+import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferByte;
+import java.awt.image.WritableRaster;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 
 @Controller
 @Slf4j
@@ -26,8 +32,8 @@ public class LinkController {
     }
 
     @GetMapping("/link")
-    public String showOrderPage(HttpServletRequest request, Model model) {
-        model.addAttribute("order", new Order());
+    public String showLinkPage(HttpServletRequest request, Model model) {
+        model.addAttribute("link", new Link());
 
         model.addAttribute("username", request.getUserPrincipal().getName());
         model.addAttribute("linkOutOrUp", "/logout");
@@ -42,7 +48,7 @@ public class LinkController {
     }
 
     @PostMapping("/link")
-    public String completeOrder(@Valid Order order, BindingResult bindingResult, Model model, HttpServletRequest request) {
+    public String completeOrder(@Valid Link link, BindingResult bindingResult, Model model, HttpServletRequest request) {
         model.addAttribute("username", request.getUserPrincipal().getName());
         model.addAttribute("linkOutOrUp", "/logout");
         model.addAttribute("textOutOrUp", "Выйти");
@@ -52,20 +58,33 @@ public class LinkController {
         if (bindingResult.hasErrors()) {
             model.addAttribute("confirm", "false");
             model.addAttribute("another", "true");
-            model.addAttribute(order);
+            model.addAttribute(link);
             return "link";
         }
 
-        User user = userService.findByUsername(request.getUserPrincipal().getName());
-        order.setDeparture(new Date());
-        order.setUser(user);
+        if (link.getDescription() == null || link.getDescription().isBlank()) {
+            link.setDescription("Описание не предоставлено");
+        }
+        if (link.getImageData() == null || link.getImageData().length == 0) {
+            File imagePath = new File("src/main/resources/static/icons/logo2.png");
+            try {
+                link.setImageData(Files.readAllBytes(imagePath.getAbsoluteFile().toPath()));
+            } catch (IOException e) {
+                log.error(e.getMessage());
+            }
+            log.info("Set default favicon for link {}", link.getLink());
+        }
 
-        user.orders.add(order);
+        User user = userService.findByUsername(request.getUserPrincipal().getName());
+        link.setUser(user);
+        user.links.add(link);
         userService.save(user);
 
         model.addAttribute("confirm", "true");
         model.addAttribute("another", "false");
-        model.addAttribute("message", "Order confirmed! Courier will be in an hour.");
+        model.addAttribute("message", "Ссылка успешно добавлена");
+
         return "link";
     }
+
 }

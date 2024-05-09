@@ -6,7 +6,7 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <meta charset="UTF-8">
-    <title>Order</title>
+    <title>Ссылки</title>
     <link rel="icon" th:href="@{/icons/logo2.png}">
     <style>
         .copyrightText {
@@ -62,50 +62,56 @@
 
                 <div class="row justify-content-center text-center">
                     <div class="col-10 col-xl-5">
-                        <p class="h3 font-weight-normal my-4">Нужна доставка? Так чего вы ждете!</p>
+                        <p class="h3 font-weight-normal my-4">Начните добавлять новые ссылки уже сейчас!</p>
 
                         <div style="background-color: #088178; border-radius: 25px">
-                            <p class="text-center display-4" style="color: white">Order</p>
+                            <p class="text-center display-4" style="color: white">Добавление URL</p>
 
-                            <form action="#" th:action="@{/link}" th:object="${order}" method="post">
+                            <form action="#" th:action="@{/link}" th:object="${link}" method="post">
 
                                 <div class="mx-5 px-5 form-group form-group-lg">
-                                    <label for="load" class="h4" style="color: white;">Where to pick?</label>
-                                    <input type="text" id="load" class="form-control input-lg" th:field="*{load}"/>
-                                    <label for="load" th:if="${#fields.hasErrors('load')}" th:errors="*{load}" style="color: white"></label>
+                                    <label for="link" class="h4" style="color: white;">Ссылка на ресурс</label>
+                                    <input type="text" id="link" class="form-control input-lg" th:field="*{link}"/>
+                                    <label for="link" th:if="${#fields.hasErrors('link')}" th:errors="*{link}" style="color: white"></label>
                                 </div>
 
                                 <div class="mx-5 px-5 form-group form-group-lg">
-                                    <label for="destination" class="h4" style="color: white">Destination to deliver?</label>
-                                    <input type="text" id="destination" class="form-control" th:field="*{destination}"/>
-                                    <label for="destination" th:if="${#fields.hasErrors('destination')}" th:errors="*{destination}" style="color: white"></label>
+                                    <label for="type" class="h4" style="color: white">Тип ресурса</label>
+                                    <select id="type" class="form-control" th:field="*{type}">
+                                        <option value="WORK">Работа</option>
+                                        <option value="STUDY">Учеба</option>
+                                        <option value="SOCIAL_MEDIA">Соцсеть</option>
+                                        <option value="ARTICLE">Статья</option>
+                                        <option value="BLOG">Блог</option>
+                                        <option value="COMPANIES">Компания</option>
+                                        <option value="OTHER">Другое</option>
+                                    </select>
+                                    <label for="type" th:if="${#fields.hasErrors('type')}" th:errors="*{type}" style="color: white"></label>
                                 </div>
 
                                 <div class="mx-5 px-5 form-group form-group-lg">
-                                    <label for="contact" class="h4" style="color: white">Any contact info, please</label>
-                                    <input type="text" id="contact" class="form-control" th:field="*{contact}"/>
-                                    <label for="contact" th:if="${#fields.hasErrors('contact')}" th:errors="*{contact}" style="color: white"></label>
+                                    <label for="image" class="h4" style="color: white">Фавикон ресурса</label>
+                                    <input type="file" id="image" class="form-control" th:field="*{imageData}"/>
                                 </div>
 
                                 <div class="mx-5 px-5 form-group form-group-lg">
-                                    <label for="info" class="h4" style="color: white">Anything else?</label>
-                                    <input type="text" id="info" class="form-control" th:field="*{info}"/>
+                                    <label for="description" class="h4" style="color: white;">Описание ресурса</label>
+                                    <input type="text" id="description" class="form-control input-lg" th:field="*{description}" />
                                 </div>
 
                                 <div class="d-flex justify-content-center m-3">
-                                    <button th:attr="hidden=${confirm}" type="submit" class="btn btn-secondary btn-lg" style="color: black; background-color: white; border-color: white; border-radius: 30px">Подтвердить заказ</button>
+                                    <button th:attr="hidden=${confirm}" type="submit" class="btn btn-secondary btn-lg" style="color: black; background-color: white; border-color: white; border-radius: 30px">Добавить ссылку</button>
                                 </div>
                             </form>
 
                             <p class="text-center h1 fw-bold m-3 pb-3" style="color: white" th:text="${message}">&nbsp</p>
                         </div>
 
-                        <button th:attr="hidden=${another}" type="button" onclick="redirect()" class="btn btn-secondary btn-lg" style="color: white; background-color: #088178; border-color: white; border-radius: 30px">Make another order</button>
-
+                        <button th:attr="hidden=${another}" type="button" onclick="redirect()" class="btn btn-secondary btn-lg" style="color: white; background-color: #088178; border-color: white; border-radius: 30px">Добаить новую ссылку</button>
                     </div>
                 </div>
 
-                <p class="h3 font-weight-normal mb-5 text-center" style="color: #088178"> 7 дней — любая точка мира! </p>
+                <p class="h3 font-weight-normal mb-5 text-center" style="color: #088178"> Ни одна ссылка не останется забытой!</p>
 
                 <footer class="footer py-3" style="background-color: #088178; color: white; border-radius: 25px">
                 <div class="mx-5">
