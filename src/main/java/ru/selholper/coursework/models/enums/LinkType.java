@@ -1,4 +1,4 @@
-package ru.xpressed.javatemplatescoursework.models.enums;
+package ru.selholper.coursework.models.enums;
 
 public enum LinkType {
     WORK,
@@ -7,5 +7,6 @@ public enum LinkType {
     ARTICLE,
     BLOG,
     COMPANIES,
+    ENTERTAINMENT,
     OTHER
 }

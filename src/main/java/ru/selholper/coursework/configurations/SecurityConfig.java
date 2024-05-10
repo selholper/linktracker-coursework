@@ -1,4 +1,4 @@
-package ru.xpressed.javatemplatescoursework.configurations;
+package ru.selholper.coursework.configurations;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -11,8 +11,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
-import ru.xpressed.javatemplatescoursework.models.User;
-import ru.xpressed.javatemplatescoursework.services.UserService;
+import ru.selholper.coursework.models.User;
+import ru.selholper.coursework.services.UserService;
 
 import java.util.List;
 
@@ -20,7 +20,7 @@ import java.util.List;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    final UserService userService;
+    private final UserService userService;
 
     @Autowired
     public SecurityConfig(UserService userService) {
@@ -31,7 +31,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/login", "/logout", "/registration", "/icons/**", "/images/**", "/", "/home", "/index").permitAll()
+                .antMatchers("/login", "/logout", "/registration", "/images/**",
+                             "/icons/**", "/", "/home", "/index").permitAll()
                 .anyRequest().authenticated()
 
                 .and().formLogin()
@@ -54,7 +55,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         InMemoryUserDetailsManager userDetailsManager = new InMemoryUserDetailsManager();
         List<User> users = userService.findAll();
         for (User user : users) {
-            userDetailsManager.createUser(new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), List.of(new SimpleGrantedAuthority("ROLE_USER"))));
+            userDetailsManager.createUser(
+                    new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(),
+                            List.of(new SimpleGrantedAuthority("ROLE_USER"))));
         }
         return userDetailsManager;
     }

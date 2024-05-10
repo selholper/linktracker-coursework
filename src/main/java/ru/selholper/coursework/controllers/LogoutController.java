@@ -1,4 +1,4 @@
-package ru.xpressed.javatemplatescoursework.controllers;
+package ru.selholper.coursework.controllers;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 @Controller
 public class LogoutController {
+
     @GetMapping("/logout")
     public String executeLogout(HttpServletRequest request, HttpServletResponse response) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

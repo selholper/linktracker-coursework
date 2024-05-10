@@ -1,4 +1,4 @@
-package ru.xpressed.javatemplatescoursework.controllers;
+package ru.selholper.coursework.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -6,16 +6,17 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import ru.xpressed.javatemplatescoursework.configurations.SecurityConfig;
-import ru.xpressed.javatemplatescoursework.models.User;
-import ru.xpressed.javatemplatescoursework.services.UserService;
+import ru.selholper.coursework.configurations.SecurityConfig;
+import ru.selholper.coursework.models.User;
+import ru.selholper.coursework.services.UserService;
 
 import javax.validation.Valid;
 
 @Controller
 public class RegistrationController {
-    final UserService userService;
-    final SecurityConfig securityConfig;
+
+    private final UserService userService;
+    private final SecurityConfig securityConfig;
 
     @Autowired
     public RegistrationController(UserService userService, SecurityConfig securityConfig) {

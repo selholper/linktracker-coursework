@@ -1,4 +1,4 @@
-package ru.xpressed.javatemplatescoursework.controllers;
+package ru.selholper.coursework.controllers;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,16 +7,13 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import ru.xpressed.javatemplatescoursework.models.Link;
-import ru.xpressed.javatemplatescoursework.models.User;
-import ru.xpressed.javatemplatescoursework.services.UserService;
-
-import javax.imageio.ImageIO;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import ru.selholper.coursework.models.Link;
+import ru.selholper.coursework.models.User;
+import ru.selholper.coursework.services.UserService;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferByte;
-import java.awt.image.WritableRaster;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -24,7 +21,8 @@ import java.nio.file.Files;
 @Controller
 @Slf4j
 public class LinkController {
-    final UserService userService;
+
+    private final UserService userService;
 
     @Autowired
     public LinkController(UserService userService) {
@@ -34,7 +32,6 @@ public class LinkController {
     @GetMapping("/link")
     public String showLinkPage(HttpServletRequest request, Model model) {
         model.addAttribute("link", new Link());
-
         model.addAttribute("username", request.getUserPrincipal().getName());
         model.addAttribute("linkOutOrUp", "/logout");
         model.addAttribute("textOutOrUp", "Выйти");
@@ -48,13 +45,14 @@ public class LinkController {
     }
 
     @PostMapping("/link")
-    public String completeOrder(@Valid Link link, BindingResult bindingResult, Model model, HttpServletRequest request) {
+    public String addLink(@Valid Link link, BindingResult bindingResult,
+                          @RequestParam(value = "imageFile", required = false) MultipartFile imageFile,
+                          Model model, HttpServletRequest request) {
         model.addAttribute("username", request.getUserPrincipal().getName());
         model.addAttribute("linkOutOrUp", "/logout");
         model.addAttribute("textOutOrUp", "Выйти");
         model.addAttribute("linkInOrAccount", "/account");
         model.addAttribute("textInOrAccount", request.getUserPrincipal().getName());
-
         if (bindingResult.hasErrors()) {
             model.addAttribute("confirm", "false");
             model.addAttribute("another", "true");
@@ -62,17 +60,25 @@ public class LinkController {
             return "link";
         }
 
-        if (link.getDescription() == null || link.getDescription().isBlank()) {
-            link.setDescription("Описание не предоставлено");
+        if (link.getName() == null || link.getName().isBlank()) {
+            link.setName("Название не представлено");
         }
-        if (link.getImageData() == null || link.getImageData().length == 0) {
+
+        if (imageFile == null || imageFile.getSize() == 0) {
             File imagePath = new File("src/main/resources/static/icons/logo2.png");
             try {
                 link.setImageData(Files.readAllBytes(imagePath.getAbsoluteFile().toPath()));
             } catch (IOException e) {
                 log.error(e.getMessage());
             }
-            log.info("Set default favicon for link {}", link.getLink());
+            log.info("Set default favicon for link {}", link.getUrl());
+        } else {
+            try {
+                link.setImageData(imageFile.getBytes());
+            } catch (IOException e) {
+                log.error(e.getMessage());
+            }
+            log.info("Set custom favicon for link {}", link.getUrl());
         }
 
         User user = userService.findByUsername(request.getUserPrincipal().getName());
@@ -86,5 +92,4 @@ public class LinkController {
 
         return "link";
     }
-
 }

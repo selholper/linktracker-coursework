@@ -1,4 +1,4 @@
-package ru.xpressed.javatemplatescoursework.models;
+package ru.selholper.coursework.models;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -15,6 +15,7 @@ import java.util.*;
 @Getter
 @Setter
 public class User implements UserDetails {
+
     @Id
     @NotEmpty(message = "Логин не может быть пустым!")
     @Pattern(regexp = "^[a-zA-Z][a-zA-Z0-9]{2,14}$", message = "Логин должен состоять из латинских букв или цифр, " +
@@ -29,11 +30,9 @@ public class User implements UserDetails {
     private String repeated;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.LAZY)
-    public List<Order> orders = new ArrayList<>();
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.LAZY)
     public List<Link> links = new ArrayList<>();
 
+    // Security
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;

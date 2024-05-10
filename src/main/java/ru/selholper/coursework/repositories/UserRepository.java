@@ -1,8 +1,8 @@
-package ru.xpressed.javatemplatescoursework.repositories;
+package ru.selholper.coursework.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import ru.xpressed.javatemplatescoursework.models.User;
+import ru.selholper.coursework.models.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer> {

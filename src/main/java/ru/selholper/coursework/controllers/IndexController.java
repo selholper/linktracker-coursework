@@ -1,4 +1,4 @@
-package ru.xpressed.javatemplatescoursework.controllers;
+package ru.selholper.coursework.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 
 @Controller
 public class IndexController {
+
     @GetMapping({"/index", "/", "/home"})
     public String showIndexPage(HttpServletRequest request, Model model) {
         if (request.getUserPrincipal() != null) {

@@ -1,10 +1,10 @@
-package ru.xpressed.javatemplatescoursework.services;
+package ru.selholper.coursework.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.xpressed.javatemplatescoursework.models.User;
-import ru.xpressed.javatemplatescoursework.repositories.UserRepository;
+import ru.selholper.coursework.models.User;
+import ru.selholper.coursework.repositories.UserRepository;
 
 import java.util.List;
 
