@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <meta charset="UTF-8">
+    <title>Ссылки</title>
+    <link rel="icon" th:href="@{/icons/logo2.png}">
+    <style>
+        .copyrightText {
+            width: 100%;
+            background-color: #088178;
+            text-align: center;
+            padding-top: 1.5rem;
+        }
+
+        .copyrightText p {
+            font-size: 1rem;
+        }
+
+        #image {
+            display: none;
+        }
+
+        #image-button {
+            text-align: left;
+            cursor: pointer;
+            display: block;
+            width: 100%;
+            height: calc(1.5em + .75rem + 2px);
+            padding: .375rem 1rem;
+            font-size: 1rem;
+            font-weight: 400;
+            line-height: 1.5;
+            color: #495057;
+            background-color: #fff;
+            background-clip: padding-box;
+            border: 1px solid #ced4da;
+            border-radius: .25rem;
+            transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+        }
+    </style>
+    <script>
+        function redirect() {
+            location.href="/link"
+        }
+
+        function checkFile(input) {
+            if (input.files && input.files[0]) {
+                const allowedExtensions = /(\.jpg|\.jpeg|\.png)$/i;
+                const maxSizeInBytes = 512 * 1024;
+                const fileName = input.files[0].name.toString();
+                const imageButton = document.getElementById("image-button");
+
+                if (!allowedExtensions.test(input.files[0].name)) {
+                    alert("Выбранный файл не является изображением (допустимые расширения: .jpg, .jpeg, .png)");
+                    input.value = '';
+                    imageButton.textContent = "Добавить (Файл не выбран)";
+                    return;
+                }
+
+                if (input.files[0].size > maxSizeInBytes) {
+                    alert("Размер файла превышает допустимый лимит (500 КБайт)");
+                    input.value = '';
+                    imageButton.textContent = "Добавить (Файл не выбран)";
+                    return;
+                }
+
+                imageButton.textContent = "Добавить " + "(" +
+                    (fileName.length > 20
+                        ? fileName.slice(0,15) + "…" + fileName.slice(fileName.lastIndexOf('.') - 1)
+                        : fileName)
+                + ")";
+            }
+        }
+    </script>
+</head>
+<body style="background-color:  #dfdfe9;">
+<div class="my-4 container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-11 col-xl-11">
+            <div style="background-color: white; border-radius: 25px; overflow: hidden">
+
+                <nav class="navbar navbar-expand-lg navbar-light">
+                    <img alt="logo?" class="d-block mx-5" width="100px" src="../static/icons/logo.png" th:src="@{/icons/logo.png}">
+                    <a class="display-4" style="color: black" href="/index">Трекер ссылок</a>
+                    <button class="navbar-toggler" style="border: 2px solid #088178; border-radius: 20px" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                        <ul class="navbar-nav ml-auto">
+                            <li class="nav-item" >
+                                <a class="nav-link h4 px-4 mt-3" href="/home">Главная</a>
+                            </li>
+                            <li class="nav-item" style="width: 1rem">
+                            <li class="nav-item active">
+                                <a class="nav-link h4 px-4 mt-3" style="color: white; background-color: #088178; border-radius: 30px" href="/link">Ссылки</a>
+                            </li>
+                            <li class="nav-item" style="width: 1rem">
+                            <li class="nav-item">
+                                <a class="nav-link h4 px-4 mt-3" th:attr="href=${linkInOrAccount}" style="border-radius: 25px" th:text="${textInOrAccount}"></a>
+                            </li>
+                            <li class="nav-item" style="width: 1rem">
+                            <li class="nav-item">
+                                <a class="nav-link h4 px-4 mt-3" th:attr="href=${linkOutOrUp}" style="background-color: grey; color: white; border-radius: 25px" th:text="${textOutOrUp}"></a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+                <hr class="mx-3" style="background-color: #088178">
+
+                <div class="row justify-content-center text-center">
+                    <div class="col-10 col-xl-5">
+                        <p class="h3 font-weight-normal my-4">Начните добавлять новые ссылки уже сейчас!</p>
+
+                        <div style="background-color: #088178; border-radius: 25px">
+                            <p class="text-center display-4" style="color: white">Добавление URL</p>
+
+                            <form action="#" th:action="@{/link}" th:object="${link}" method="post" enctype="multipart/form-data">
+
+                                <div class="mx-5 px-5 form-group form-group-lg">
+                                    <label for="link" class="h4" style="color: white;">Ссылка на ресурс</label>
+                                    <input type="text" id="link" class="form-control input-lg" th:field="*{url}"/>
+                                    <label for="link" th:if="${#fields.hasErrors('url')}" th:errors="*{url}" style="color: white"></label>
+                                </div>
+
+                                <div class="mx-5 px-5 form-group form-group-lg">
+                                    <label for="type" class="h4" style="color: white">Тип ресурса</label>
+                                    <select id="type" class="form-control" th:field="*{type}">
+                                        <option value="WORK">Работа</option>
+                                        <option value="STUDY">Учеба</option>
+                                        <option value="SOCIAL_MEDIA">Соцсеть</option>
+                                        <option value="ARTICLE">Статья</option>
+                                        <option value="BLOG">Блог</option>
+                                        <option value="COMPANIES">Компания</option>
+                                        <option value="ENTERTAINMENT">Развлечения</option>
+                                        <option value="OTHER">Другое</option>
+                                    </select>
+                                    <label for="type" th:if="${#fields.hasErrors('type')}" th:errors="*{type}" style="color: white"></label>
+                                </div>
+
+                                <div class="mx-5 px-5 form-group form-group-lg">
+                                    <label for="image" class="h4" style="color: white">Фавикон ресурса</label><br/>
+                                    <label for="image" id="image-button" class="h4">Добавить (Файл не выбран)</label>
+                                    <input type="file" id="image" class="form-control" onchange="checkFile(this)" name="imageFile"/>
+                                </div>
+
+                                <div class="mx-5 px-5 form-group form-group-lg">
+                                    <label for="description" class="h4" style="color: white;">Название ресурса</label>
+                                    <input type="text" id="description" class="form-control input-lg" th:field="*{name}" />
+                                </div>
+
+                                <div class="d-flex justify-content-center m-3">
+                                    <button th:attr="hidden=${confirm}" type="submit" class="btn btn-secondary btn-lg" style="color: black; background-color: white; border-color: white; border-radius: 30px">Добавить ссылку</button>
+                                </div>
+                            </form>
+
+                            <p class="text-center h1 fw-bold m-3 pb-3" style="color: white" th:text="${message}">&nbsp</p>
+                        </div>
+
+                        <button th:attr="hidden=${another}" type="button" onclick="redirect()" class="btn btn-secondary btn-lg" style="color: white; background-color: #088178; border-color: white; border-radius: 30px">Добавить новую ссылку</button>
+                    </div>
+                </div>
+
+                <p class="h3 font-weight-normal mb-5 text-center" style="color: #088178"> Ни одна ссылка не останется забытой!</p>
+
+                <footer class="footer py-3" style="background-color: #088178; color: white; border-radius: 25px">
+                <div class="mx-5">
+                    <div class="row justify-content-center text-center">
+                        <div class="col-6 col-xl-3">
+                            <img alt="github?" class="mx-auto" width="30px" src="../static/icons/github.png" th:src="@{/icons/github.png}">
+                            <a class="text-light" target="_blank" href="https://github.com/selholper">github.com/selholper</a>
+                        </div>
+                        <div class="col-6 col-xl-3">
+                            <img alt="telegram?" class="mx-auto" width="30px" src="../static/icons/telegram.png" th:src="@{/icons/telegram.png}">
+                            <a class="text-light" target="_blank" href="https://t.me/selholper">t.me/selholper</a>
+                        </div>
+                        <div class="col-6 col-xl-3">
+                            <img alt="vk?" class="mx-auto" width="30px" src="../static/icons/vk.png" th:src="@{/icons/vk.png}">
+                            <a class="text-light" target="_blank" href="https://vk.com/selholper">vk.com/selholper</a>
+                        </div>
+
+                    </div>
+                    <div class="row justify-content-center text-center">
+                        <div class="col-6 col-xl-3">
+                            <img alt="email?" class="mx-auto" width="30px" src="../static/icons/mail.png" th:src="@{/icons/mail.png}">
+                            <a class="text-light" target="_blank" href="mailto:selholper@gmail.com">selholper@gmail.com</a>
+                        </div>
+                        <div class="col-6 col-xl-3">
+                            <img alt="email?" class="mx-auto" width="30px" src="../static/icons/mail.png" th:src="@{/icons/mail.png}">
+                            <a class="text-light" target="_blank" href="mailto:opozimivan@gmail.com">opozimivan@gmail.com</a>
+                        </div>
+                        <div class="col-6 col-xl-3">
+                            <img alt="email?" class="mx-auto" width="30px" src="../static/icons/mail.png" th:src="@{/icons/mail.png}">
+                            <a class="text-light" target="_blank" href="mailto:zimin.i.a1@edu.mirea.ru">zimin.i.a1@edu.mirea.ru</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="copyrightText">
+                    <p>© Зимин И.А. ИКБО-36-22, 2024. Все права защищены.</p>
+                </div>
+                </footer>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
