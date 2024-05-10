@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import ru.selholper.coursework.configurations.SecurityConfig;
 import ru.selholper.coursework.models.User;
 import ru.selholper.coursework.services.UserService;
-
 import javax.validation.Valid;
 
 @Controller
