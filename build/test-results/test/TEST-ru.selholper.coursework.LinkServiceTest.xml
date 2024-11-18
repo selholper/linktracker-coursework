@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="ru.selholper.coursework.LinkServiceTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2024-05-10T01:41:26" hostname="SELHO" time="0.483">
+<testsuite name="ru.selholper.coursework.LinkServiceTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2024-11-18T17:18:00" hostname="SELHO" time="0.73">
   <properties/>
-  <testcase name="testGetById()" classname="ru.selholper.coursework.LinkServiceTest" time="0.469"/>
+  <testcase name="testGetById()" classname="ru.selholper.coursework.LinkServiceTest" time="0.71"/>
   <testcase name="testFindById()" classname="ru.selholper.coursework.LinkServiceTest" time="0.003"/>
-  <testcase name="testGetByType()" classname="ru.selholper.coursework.LinkServiceTest" time="0.002"/>
-  <testcase name="testDeleteById()" classname="ru.selholper.coursework.LinkServiceTest" time="0.005"/>
+  <testcase name="testGetByType()" classname="ru.selholper.coursework.LinkServiceTest" time="0.003"/>
+  <testcase name="testDeleteById()" classname="ru.selholper.coursework.LinkServiceTest" time="0.008"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
